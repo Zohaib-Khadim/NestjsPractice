@@ -12,18 +12,29 @@ import { StudentModule } from './student/student.module';
 import { EmployeeModule } from './employee/employee.module';
 import { ProductsModule } from './products/products.module';
 import { LibraryModule } from './library/library.module';
+import { TeacherModule } from './teacher/teacher.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
     UserModule,
     DatabaseModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule,
     forRoot(process.env.MONGO_URI!),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      url: process.env.POSTGRES_URI,
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
     StudentModule,
     EmployeeModule,
     ProductsModule,
     LibraryModule,
+    TeacherModule,
   ],
   controllers: [AppController, MynameController],
   providers: [AppService, DatabaseService],
