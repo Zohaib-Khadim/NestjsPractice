@@ -1,0 +1,34 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateStationaryInput {
+  author: String!
+  description: String
+  title: String!
+}
+
+type Mutation {
+  createStationary(input: CreateStationaryInput!): Stationary!
+  removeStationary(id: String!): Stationary!
+  updateStationary(input: UpdateStationaryInput!): Stationary!
+}
+
+type Query {
+  getAllStationary: Stationary!
+  getStationary(id: String!): Stationary!
+}
+
+type Stationary {
+  _id: ID!
+  author: String!
+  description: String
+  title: String!
+}
+
+input UpdateStationaryInput {
+  author: String
+  description: String
+  id: ID!
+  title: String
+}

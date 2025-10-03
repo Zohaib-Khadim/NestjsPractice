@@ -14,6 +14,11 @@ import { ProductsModule } from './products/products.module';
 import { LibraryModule } from './library/library.module';
 import { TeacherModule } from './teacher/teacher.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongoAuthModule } from './auth/mongo-auth/mongo-auth.module';
+import { StationaryModule } from './stationary/stationary.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -21,6 +26,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver:ApolloDriver,
+      autoSchemaFile:join(process.cwd(),'src/schema.gql'),
+      sortSchema:true,
+      playground:true,
     }),
     MongooseModule,
     forRoot(process.env.MONGO_URI!),
@@ -35,6 +46,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ProductsModule,
     LibraryModule,
     TeacherModule,
+    MongoAuthModule,
+    StationaryModule,
   ],
   controllers: [AppController, MynameController],
   providers: [AppService, DatabaseService],
