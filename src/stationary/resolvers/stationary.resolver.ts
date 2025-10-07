@@ -8,7 +8,7 @@ import { UpdateStationaryInput } from '../dto/update-stationary.input';
 @Resolver(()=> Stationary)
 export class StationaryResolver {
     constructor(private readonly stationaryService: StationaryService) {}
-    @Query(() => Stationary, {name: 'getAllStationary'})
+    @Query(() => [Stationary], {name: 'getAllStationary'})
     async findAll():Promise<Stationary[]> {
         return this.stationaryService.findAll();
     }
@@ -20,7 +20,7 @@ export class StationaryResolver {
 
     @Mutation(() => Stationary)
     async createStationary(@Args('input')input:CreateStationaryInput){
-        return this.stationaryService.craete(input);
+        return this.stationaryService.create(input);
     }
 
       @Mutation(() => Stationary)
@@ -28,7 +28,7 @@ export class StationaryResolver {
         return this.stationaryService.update(input);
     }
 
-    @Mutation(()=> Stationary)
+    @Mutation(()=> Boolean)
     async removeStationary(@Args('id', {type:()=>String}) id:string) {
         return this.stationaryService.remove(id);
     }

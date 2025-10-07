@@ -9,7 +9,7 @@ import { UpdateStationaryInput } from './dto/update-stationary.input';
 export class StationaryService {
     constructor(@InjectModel(Stationary.name) private stationaryModel:Model<Stationary>) {}
 
-    async craete(input:CreateStationaryInput):Promise<Stationary> {
+    async create(input:CreateStationaryInput):Promise<Stationary> {
         const newStationary = new this.stationaryModel(input);
         return newStationary.save();
     }

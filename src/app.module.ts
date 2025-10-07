@@ -19,6 +19,8 @@ import { StationaryModule } from './stationary/stationary.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { PrismaModule } from './prisma/prisma.module';
+import { BookModule } from './book/book.module';
 
 @Module({
   imports: [
@@ -48,6 +50,8 @@ import { join } from 'path';
     TeacherModule,
     MongoAuthModule,
     StationaryModule,
+    PrismaModule,
+    BookModule,
   ],
   controllers: [AppController, MynameController],
   providers: [AppService, DatabaseService],

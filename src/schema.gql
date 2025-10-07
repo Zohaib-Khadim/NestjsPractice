@@ -2,20 +2,44 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Book {
+  author: String!
+  createdAt: DateTime!
+  description: String
+  id: String!
+  title: String!
+}
+
+input CreateBookInput {
+  author: String!
+  description: String!
+  title: String!
+}
+
 input CreateStationaryInput {
   author: String!
   description: String
   title: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Mutation {
+  createBook(input: CreateBookInput!): Book!
   createStationary(input: CreateStationaryInput!): Stationary!
-  removeStationary(id: String!): Stationary!
+  removeBook(id: String!): Boolean!
+  removeStationary(id: String!): Boolean!
+  updateBook(input: UpdateBookInput!): Book!
   updateStationary(input: UpdateStationaryInput!): Stationary!
 }
 
 type Query {
-  getAllStationary: Stationary!
+  getAllBooks: [Book!]!
+  getAllStationary: [Stationary!]!
+  getBook(id: String!): Book!
   getStationary(id: String!): Stationary!
 }
 
@@ -24,6 +48,13 @@ type Stationary {
   author: String!
   description: String
   title: String!
+}
+
+input UpdateBookInput {
+  author: String
+  description: String
+  id: ID!
+  title: String
 }
 
 input UpdateStationaryInput {
