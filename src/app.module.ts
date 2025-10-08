@@ -40,7 +40,7 @@ import { APP_GUARD } from '@nestjs/core';
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      ignoreEnvFile: true,
+      ignoreEnvFile: process.env.NODE_ENV === 'production',
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver:ApolloDriver,
