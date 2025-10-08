@@ -6,7 +6,7 @@ import { MynameController } from './myname/myname.controller';
 import { LoggerMiddleware } from './middleware/logger/logger.middleware';
 import { DatabaseService } from './database/database.service';
 import { DatabaseModule } from './database/database.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { StudentModule } from './student/student.module';
 import { EmployeeModule } from './employee/employee.module';
@@ -47,13 +47,20 @@ import { APP_GUARD } from '@nestjs/core';
       sortSchema:true,
       playground:true,
     }),
-    MongooseModule,
-    forRoot(process.env.MONGO_URI!),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.POSTGRES_URI,
-      autoLoadEntities: true,
-      synchronize: true,
+    // MongooseModule,
+    // forRoot(process.env.MONGO_URI!),
+    // TypeOrmModule.forRoot({
+    //   type: 'postgres',
+    //   url: process.env.POSTGRES_URI,
+    //   autoLoadEntities: true,
+    //   synchronize: true,
+    // }),
+        MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI'),
+      }),
+      inject: [ConfigService],
     }),
     StudentModule,
     EmployeeModule,
