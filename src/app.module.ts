@@ -21,9 +21,21 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { PrismaModule } from './prisma/prisma.module';
 import { BookModule } from './book/book.module';
+import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      throttlers:[
+        {
+          name:"default",
+          ttl:seconds(60),
+          limit:3
+        }
+      ],
+      errorMessage:"Too many requests, please wait a minute and try again later."
+    }),
     UserModule,
     DatabaseModule,
     ConfigModule.forRoot({
@@ -54,7 +66,10 @@ import { BookModule } from './book/book.module';
     BookModule,
   ],
   controllers: [AppController, MynameController],
-  providers: [AppService, DatabaseService],
+  providers: [AppService, DatabaseService,{
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard,
+  }],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
