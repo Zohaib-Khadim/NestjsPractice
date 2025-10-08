@@ -49,12 +49,12 @@ import { APP_GUARD } from '@nestjs/core';
     }),
     // MongooseModule,
     // forRoot(process.env.MONGO_URI!),
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   url: process.env.POSTGRES_URI,
-    //   autoLoadEntities: true,
-    //   synchronize: true,
-    // }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      url: process.env.POSTGRES_URI,
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
         MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -83,6 +83,6 @@ export class AppModule implements NestModule {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }
-function forRoot(uri: string) {
-  return MongooseModule.forRoot(uri);
-}
+// function forRoot(uri: string) {
+//   return MongooseModule.forRoot(uri);
+// }
