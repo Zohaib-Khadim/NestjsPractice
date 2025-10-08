@@ -11,10 +11,15 @@ import { JWTStrategy } from './jwt.strategy';
   imports: [ConfigModule,MongooseModule.forFeature([{name:Worker.name, schema:WorkerSchema}]),JwtModule.registerAsync({
     imports: [ConfigModule],
     inject: [ConfigService],
-    useFactory: async (config:ConfigService ) => ({
-      secret: config.get<string>('JWT_SECRET'),
-      signOptions: { expiresIn: '1h' },   
-    }),
+      useFactory: async (configService: ConfigService) => {
+        const secret = configService.get<string>('JWT_SECRET');
+        console.log('JWT Secret inside factory:', secret); // 👈 Add this line here
+
+        return {
+          secret,
+          signOptions: { expiresIn: '1h' },
+        };
+      },
   })],
   controllers: [MongoAuthController],
   providers: [MongoAuthService, JWTStrategy]

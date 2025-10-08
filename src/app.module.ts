@@ -40,6 +40,7 @@ import { APP_GUARD } from '@nestjs/core';
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      ignoreEnvFile: true,
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver:ApolloDriver,
@@ -55,7 +56,7 @@ import { APP_GUARD } from '@nestjs/core';
       autoLoadEntities: true,
       synchronize: true,
     }),
-        MongooseModule.forRootAsync({
+    MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('MONGO_URI'),
