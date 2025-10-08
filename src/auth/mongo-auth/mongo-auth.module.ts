@@ -8,7 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JWTStrategy } from './jwt.strategy';
 
 @Module({
-  imports: [MongooseModule.forFeature([{name:Worker.name, schema:WorkerSchema}]),JwtModule.registerAsync({
+  imports: [ConfigModule,MongooseModule.forFeature([{name:Worker.name, schema:WorkerSchema}]),JwtModule.registerAsync({
     imports: [ConfigModule],
     inject: [ConfigService],
     useFactory: async (config:ConfigService ) => ({
